@@ -1,4 +1,4 @@
-module Api
+module API
   class ZombiesController < ApplicationController
     def index
       zombies = Zombie.all
