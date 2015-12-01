@@ -7,7 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 
 def json(json_object)
-  JSON.parse(json_object)
+  JSON.parse(json_object, symbolize_names: true)
 end
 
 RSpec.configure do |config|
