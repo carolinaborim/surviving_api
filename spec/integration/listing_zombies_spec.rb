@@ -23,4 +23,20 @@ describe 'surviving api', type: :request do
     end
   end
 
+  context 'filtering zombies by weapon' do
+    it 'returns a zombie with that specific weapon' do
+      paul = Zombie.create!( name: 'Paul', weapon: 'axe')
+      joanna = Zombie.create!( name: 'Joanna', weapon: 'shotgun')
+
+      get "/zombies?weapon=axe"
+      expect(response.status).to eq 200
+
+      zombies = JSON.parse(response.body, symbolize_names: true).collect { |z| z[:name]}
+
+      expect(zombies).to include 'Paul'
+      expect(zombies).to_not include 'Joanna'
+    end
+  end
+
+
 end
