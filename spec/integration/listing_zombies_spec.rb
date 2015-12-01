@@ -19,7 +19,7 @@ describe 'surviving api', type: :request do
       expect(response.status).to eq 200
 
       zombie_response = json(response.body)
-      expect(zombie_response["name"]).to eq zombie.name
+      expect(zombie_response[:name]).to eq zombie.name
     end
   end
 
@@ -31,7 +31,7 @@ describe 'surviving api', type: :request do
       get "/zombies?weapon=axe"
       expect(response.status).to eq 200
 
-      zombies = JSON.parse(response.body, symbolize_names: true).collect { |z| z[:name]}
+      zombies = json(response.body).collect { |z| z[:name]}
 
       expect(zombies).to include 'Paul'
       expect(zombies).to_not include 'Joanna'
