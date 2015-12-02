@@ -28,13 +28,31 @@ describe 'surviving api', type: :request do
       paul = Zombie.create!( name: 'Paul', weapon: 'axe')
       joanna = Zombie.create!( name: 'Joanna', weapon: 'shotgun')
 
-      get "/zombies?weapon=axe"
+      get '/zombies?weapon=axe'
       expect(response.status).to eq 200
 
       zombies = json(response.body).collect { |z| z[:name]}
 
       expect(zombies).to include 'Paul'
       expect(zombies).to_not include 'Joanna'
+    end
+  end
+
+  context 'using the accept header to request a media type' do
+    it 'returns zombies in JSON' do
+      paul = Zombie.create!( name: 'Paul', weapon: 'axe')
+      get '/zombies', {}, { 'Accept' => Mime::JSON }
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq Mime::JSON
+    end
+
+    it 'returns zombies in XML' do
+      paul = Zombie.create!( name: 'Paul', weapon: 'axe')
+       get '/zombies', {}, { 'Accept' => Mime::XML }
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq Mime::XML
     end
   end
 
